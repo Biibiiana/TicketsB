@@ -1,12 +1,18 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { concerts } from '../mocks/concerts.json';
+// import { concerts } from '../mocks/concerts.json';
 import Card from '../components/Card';
 import Modal from '../components/Modal';
+import service from '../services/config';
 
 export function Cities() {
     const { city } = useParams();
-    const cityConcerts = concerts.filter(concert => concert.city === city);
+    const cityConcerts = async () => {
+        const response = await service.get(`/events/${city}`)
+        console.log(response.data);
+        return response.data;
+    };
+    // const cityConcerts = concerts.filter(concert => concert.city === city);
 
     return (
         <>
