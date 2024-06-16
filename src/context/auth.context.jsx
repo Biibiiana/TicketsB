@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import service from "./../services/config";
+import PropTypes from "prop-types";
+import service from "../services/config";
 
 const AuthContext = createContext();
 
@@ -39,6 +40,11 @@ const AuthWrapper = (props) => {
       {props.children}
     </AuthContext.Provider>
   );
+}
+
+// Define PropTypes for the component
+AuthWrapper.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export { AuthContext, AuthWrapper };
