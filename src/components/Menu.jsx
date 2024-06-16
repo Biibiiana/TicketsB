@@ -7,9 +7,8 @@ import {
   ListOfArtists,
   ListOfGenders,
 } from "./../context/listsOf";
-import { Link } from "react-router-dom";
 
-export function Menu({ transition }) {
+export function Menu() {
   const navigate = useNavigate();
 
   const { isLoggedIn, authenticateUser } = useContext(AuthContext);
@@ -27,7 +26,7 @@ export function Menu({ transition }) {
 
   if (isLoggedIn) {
     return (
-      <nav id="Nav" className={`menu ${transition ? 'transition' : ''}`}>
+      <nav id="Nav" className={"menu"}>
         <div className="navbar2">
           <ul className="menu-horizontal">
             <li>
@@ -43,20 +42,20 @@ export function Menu({ transition }) {
               <MenuItem list={uniqueGenders} tipo="generos" />
             </li>
             <li>
-              <Link to="/new-event">Nuevo evento</Link>
+              <NavLink to="/new-event">Nuevo evento</NavLink>
+            </li>
+            <li>
+              <button className="logOut" onClick={handleLogOut}>
+                Cerrar sesión
+              </button>
             </li>
           </ul>
-
-          <button className="logOut" onClick={handleLogOut}>
-            <i className="fi fi-ss-address-card "></i>
-          </button>
         </div>
-        <hr />
       </nav>
     );
   } else {
     return (
-      <nav id="Nav" className={transition ? "showTransition" : "notShow"}>
+      <nav id="Nav" className={"menu"}>
         <div className="navbar2">
           <span className="navspan">
             <NavLink to="/signup"> Sign up </NavLink>

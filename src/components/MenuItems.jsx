@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export function MenuItem({ list, tipo }) {
     const getPath = (item) => {
@@ -18,9 +19,14 @@ export function MenuItem({ list, tipo }) {
         <ul id={tipo} className="menu-vertical">
             {list.map(item => (
                 <li key={item}>
-                    <Link to={getPath(item)}>{item}</Link>
+                    <NavLink to={getPath(item)}>{item}</NavLink>
                 </li>
             ))}
         </ul>
     );
 }
+
+MenuItem.propTypes = {
+    list: PropTypes.arrayOf(PropTypes.string).isRequired,
+    tipo: PropTypes.oneOf(['ciudades', 'artistas', 'generos']).isRequired
+};
