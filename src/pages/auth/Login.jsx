@@ -5,9 +5,7 @@ import { AuthContext } from "../../context/auth.context";
 
 export default function Login() {
   const { authenticateUser } = useContext(AuthContext);
-
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,7 +23,7 @@ export default function Login() {
       navigate("/");
     } catch (error) {
       console.log(error);
-      if (error.response.status === 400) {
+      if (error.response && error.response.status === 400) {
         setErrorMessage(error.response.data.errorMessage);
       } else {
         navigate("/error");
@@ -36,7 +34,6 @@ export default function Login() {
   return (
     <div>
       <h1>Log in</h1>
-
       <form onSubmit={handleLogin}>
         <label>Email:</label>
         <br />
