@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 // import { AuthContext } from "../../context/auth.context";
-import service from "../../services/config";
+import service from "../services/config";
 import SyncLoader from "react-spinners/SyncLoader";
 
 export default function MyProfile() {

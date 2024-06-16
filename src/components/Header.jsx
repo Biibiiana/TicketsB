@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default function Header() {
   return (
     <header>
-      <Link to="/home">
+      <Link to="/">
         <Image
           className='logo'
           src='/LogoCompraEntradas.jpg'
