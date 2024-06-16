@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 
-// Components
+// Pages
 import { Home } from './pages/Home';
 import { Artists } from './pages/Artists';
 import { Cities } from './pages/Cities';
@@ -13,9 +13,11 @@ import Signup from './pages/auth/Signup';
 import Login from './pages/auth/Login';
 import Error from './pages/errors/Error';
 import NotFound from './pages/errors/NotFound';
+
+//Components
 import Header from './components/Header';
-import './App.css';
 import Footer from "./components/Footer";
+import './App.css';
 
 function App() {
   return (

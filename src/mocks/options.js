@@ -1,6 +1,6 @@
 // options.js
 export const genres = [
-    "Jazz", "Clasical", "Hip-hop", "Electronic", "Country", "Regge", "K-pop / J-pop", "Salsa", "Bachata", "Urbano"
+    "Jazz", "Clasical", "Hip-hop", "Electronic", "Country", "Regge", "K-pop / J-pop", "Salsa", "Bachata", "Urbano", "pop / rock"
 ].sort();
 
 export const cities = [

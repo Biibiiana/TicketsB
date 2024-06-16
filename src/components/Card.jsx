@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 
 export default function Card({ concert }) {
     return (
@@ -19,3 +20,14 @@ export default function Card({ concert }) {
         </div>
     );
 }
+
+Card.propTypes = {
+    concert: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        poster: PropTypes.string.isRequired,
+        tourName: PropTypes.string.isRequired,
+        artist: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        date: PropTypes.string.isRequired,
+    }).isRequired,
+};

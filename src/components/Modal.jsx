@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import jsPDF from 'jspdf';
+import service from '../services/config';
+import { useUser } from '../context/UserContext';
 
-export default function Modal({ concert }) {
+export default function Modal({ concert, onClose }) {
+    const { userId } = useUser();
     const [pistaCount, setPistaCount] = useState(0);
     const [asientoCount, setAsientoCount] = useState(0);
 
@@ -20,29 +23,41 @@ export default function Modal({ concert }) {
         setAsientoCount(value);
     };
 
-    const handleCompra = () => {
-        // Restar del total disponible las entradas seleccionadas
-        concert.disp_pista -= pistaCount;
-        concert.disp_asientos -= asientoCount;
+    const handleBuyTickets = async () => {
+        try {
+            const response = await service.post('/tickets/newticket', {
+                eventId: concert.id,
+                userId: userId,
+                quantitySites: pistaCount,
+                quantitySeats: asientoCount,
+                pricePayload: totalPrice
+            });
+            console.log('Ticket creado:', response.data);
+            // Restar del total disponible las entradas seleccionadas
+            concert.disp_pista -= pistaCount;
+            concert.disp_asientos -= asientoCount;
 
-        // Generar PDF con datos de la compra
-        const doc = new jsPDF();
-        doc.text(`Compra de entradas - ${concert.tourName}`, 10, 10);
-        doc.text(`Artista: ${concert.artist}`, 10, 20);
-        doc.text(`Fecha: ${concert.date}`, 10, 30);
-        doc.text(`Ciudad: ${concert.city}`, 10, 40);
-        doc.text(`Lugar: ${concert.Lugar}`, 10, 50);
-        doc.text(`Entradas de pista: ${pistaCount} x $${concert.p_pista} = $${totalPistaPrice}`, 10, 60);
-        doc.text(`Entradas de asiento: ${asientoCount} x $${concert.p_asiento} = $${totalAsientoPrice}`, 10, 70);
-        doc.text(`Total: $${totalPrice}`, 10, 80);
-        doc.save('CompraEntradas.pdf');
+            // Generar PDF con datos de la compra
+            const doc = new jsPDF();
+            doc.text(`Compra de entradas - ${concert.tourName}`, 10, 10);
+            doc.text(`Artista: ${concert.artist}`, 10, 20);
+            doc.text(`Fecha: ${concert.date}`, 10, 30);
+            doc.text(`Ciudad: ${concert.city}`, 10, 40);
+            doc.text(`Lugar: ${concert.Lugar}`, 10, 50);
+            doc.text(`Entradas de pista: ${pistaCount} x $${concert.p_pista} = $${totalPistaPrice}`, 10, 60);
+            doc.text(`Entradas de asiento: ${asientoCount} x $${concert.p_asiento} = $${totalAsientoPrice}`, 10, 70);
+            doc.text(`Total: $${totalPrice}`, 10, 80);
+            doc.save('CompraEntradas.pdf');
 
-        // Resetear los campos de entrada
-        setPistaCount(0);
-        setAsientoCount(0);
+            // Resetear los campos de entrada
+            setPistaCount(0);
+            setAsientoCount(0);
 
-        // Cerrar el modal
-        onClose();
+            // Cerrar el modal
+            onClose();
+        } catch (error) {
+            console.error('Error al crear el ticket:', error);
+        }
     };
     
     return (
@@ -81,7 +96,12 @@ export default function Modal({ concert }) {
                     </div>
                     <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" className="btn bg-ligth-blue text-dark" onClick={handleCompra} data-bs-dismiss="modal">Comprar</button>
+                        <button 
+                            type="button" 
+                            className="btn bg-ligth-blue text-dark" 
+                            onClick={handleBuyTickets}
+                            data-bs-dismiss="modal"
+                        >Comprar</button>
                     </div>
                 </div>
             </div>
@@ -90,5 +110,7 @@ export default function Modal({ concert }) {
 }
 
 Modal.propTypes = {
-  concert: PropTypes.object.isRequired
+  concert: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+  userId: PropTypes.string.isRequired 
 }
